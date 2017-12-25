@@ -1,2 +1,2 @@
-# Physisc-Simulation
+# Physics-Simulation
 Physics simulation using Python
