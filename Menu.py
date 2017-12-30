@@ -1,8 +1,6 @@
 import pygame
 import math
 import sys
-global counter
-counter=0
 
 def option(screen):
     font=pygame.font.SysFont("comicsansms",20)
@@ -77,10 +75,24 @@ def border(screen):
 
     pygame.display.flip()
 
-
+def check():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key:
+                sys.exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos=pygame.mouse.get_pos()
+            if pos[0] >=200 and pos[0]<=315 and pos[1] >=205 and pos[1]<=225:
+                print("In projectile")
+            elif pos[0] >=200 and pos[0]<=375 and pos[1] >=240 and pos[1]<=260:
+                print("in 2nd option")
+            elif pos[0] >=200 and pos[0]<=680 and pos[1] >=265 and pos[1]<=290:
+                print("In 3rd option")
 
 pygame.init()
-screen=pygame.display.set_mode((1366,768),pygame.FULLSCREEN)
+screen=pygame.display.set_mode((1366,768))#,pygame.FULLSCREEN)
 pygame.display.set_caption("Physics Simulation")
 
 def menu():
@@ -93,13 +105,10 @@ def menu():
     while not done:
         border(screen)
         counter+=0.01
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key:
-                    sys.exit()
+        check()
         #pygame.time.delay(100)
 
 
 menu()
+
+
