@@ -3,13 +3,16 @@ import math
 import sys
 
 def option(screen):
-    font=pygame.font.SysFont("comicsansms",20)
+    d="Electrostatics"
+    font=pygame.font.SysFont(None,20)
     op1=font.render("1. Projectile",True,(0,0,255))
     op2=font.render("2. Simple Pendulum",True,(0,0,255))
     op3=font.render("3. Projection of a Particle in Circular motion on axes",True,(0,0,255))
+    op4=font.render(d,True,(0,0,255))
     screen.blit(op1,(200,200))
     screen.blit(op2,(200,230))
     screen.blit(op3,(200,260))
+    screen.blit(op4,(200,290))
 def border(screen):
 
     #horizontal line above
@@ -80,7 +83,7 @@ def check():
         if event.type == pygame.QUIT:
             sys.exit()
         if event.type == pygame.KEYDOWN:
-            if event.key:
+            if event.key==pygame.K_ESCAPE:
                 sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos=pygame.mouse.get_pos()
