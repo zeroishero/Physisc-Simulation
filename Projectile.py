@@ -1,11 +1,36 @@
 #impoting libraries
 import math
 import pygame
-import time
-import sys
-import numpy
-#Horizontal Projectile calculation function
-def horiz(v0,Ang,dt):
+
+def input_types():#for choosing types of projecctile motion.
+    print("The types of projectile :")
+    print("1. Horizontal")
+    print("2. Vertical")
+    print("3. Combined")
+    return int(input("Enter your choice"))
+
+
+def variables(x):#Function for inputing variables
+    if x == 1:
+        Velocity = float(input("Enter a velocity"))
+        Angle = float(input("Enter a angle"))
+        Height = 0
+    elif x == 2:
+        Velocity = float(input("Enter a velocity"))
+        Angle = 0
+        Height = float(input("Enter a height"))
+    elif x == 3:
+        Velocity = float(input("Enter a velocity"))
+        Angle = float(input("Enter a angle"))
+        Height = float(input("Enter a height"))
+    else:
+        print("You have entered wrong option")
+        x = input("Press any key to continue ")
+        return 0;
+    return (Velocity,Angle,Height)
+
+
+def horiz(v0,Ang,dt): #Horizontal Projectile calculation function
     cosA = math.cos(math.radians(Ang))
     sinA = math.sin(math.radians(Ang))
     x = v0*dt*cosA
@@ -23,9 +48,77 @@ def combined(v0,Ang,h,dt):
     x = v0 * dt * cosA
     y = v0 * dt * sinA - (1 / 2) * 9.8 * dt * dt + h
     return plot(x,y)
+
+
+def calc_horizon(u,Ang,dt):
+    cosA = math.cos(math.radians(Ang))
+    sinA = math.sin(math.radians(Ang))
+    Vx = u * cosA
+    Vy = u * sinA - 9.8 *dt
+    V = math.sqrt(math.pow(Vx,2) + math.pow(Vy,2))
+    return V
+
+
+def calc_projectile(dict_time,position,Values):
+    u , ang, h = Values
+    cosA = math.cos(math.radians(ang))
+    sinA = math.sin(math.radians(ang))
+    dt = dict_time[position]
+    Vx = u * cosA
+    Vy = u * sinA - 9.8 * dt
+    V = math.sqrt(math.pow(Vx, 2) + math.pow(Vy, 2))
+    Dx =  u * cosA * dt
+    Dy = u * sinA *dt - (1/2) * 9.8 * dt * dt
+    D = math.sqrt(math.pow(Dx,2)+math.pow(Dy,2))
+    return [V,D]
+
+def calc_standardValues(u,Ang,h):
+    cosA = math.cos(math.radians(Ang))
+    sinA = math.sin(math.radians(Ang))
+    sin2A = 2 * sinA * cosA
+    max_height = u * u * sinA *sinA /(2 * 9.8) + h
+    total_time = 2 * u *sinA / 9.8
+    Range = u * u * sin2A / 9.8
+    return [Range , max_height, total_time]
+
+class display_test:
+    def __init__(self,message,colour,location,screen):
+        self.font =  pygame.font.SysFont('courier',16, bold=True,italic=True)
+        self.screen_text = self.font.render(message, True, colour)
+        self.location = location
+        self.screen = screen
+    def display(self):
+        self.screen.blit(self.screen_text,self.location)
+
+class display_Values:
+    def __init__(self,message,colour,location,screen):
+        self.font =  pygame.font.SysFont('courier',16,bold=False,italic=True)
+        self.screen_text = self.font.render(message, True, colour)
+        self.screen_erase = self.font.render(message,True,[0,0,0])
+        self.location = location
+        self.screen = screen
+    def display(self):
+        self.screen.blit(self.screen_text,self.location)
+    def display_erase(self):
+        self.screen.blit(self.screen_erase,self.location)
+
+def instant_velocity_displacement(dt,values):
+    u, ang, h = values
+    cosA = math.cos(math.radians(ang))
+    sinA = math.sin(math.radians(ang))
+    Vx = u * cosA
+    Vy = u * sinA - 9.8 * dt
+    V = math.sqrt(math.pow(Vx, 2) + math.pow(Vy, 2))
+    Dx = u * cosA * dt
+    Dy = u * sinA * dt - (1 / 2) * 9.8 * dt * dt
+    D = math.sqrt(math.pow(Dx, 2) + math.pow(Dy, 2))
+    return [V , D]
+
 #Function that convert right hand co-ordinate to left hand
 def plot(x,y):
    return [60 + x, 733 - y,y]
+
+
 #Function for drawing borderline
 def border(screen):
     pygame.draw.line(screen,[0,0,0],(10,10),(10,758),4)
@@ -35,37 +128,51 @@ def border(screen):
 #function that returns integer value of plot
 def int_plot(x,y):
     return(int(x),int(y))
-#function that reverses left hand co-ordinate to right hand.
+
 #Function for axes
 def axes(screen):
     pygame.draw.line(screen,[0,0,0], (58,35), (58,733),2)
     pygame.draw.line(screen, [0, 0, 0], (58, 733),(1306, 733),2)
-#function that calculate instaneous for horizontal projectile
-
-
-
-
 #function for displaying the image
+
+def pause_program():  # Function for pausing the program
+    paused = True
+    while paused:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    paused = False
+                if event.key == pygame.K_ESCAPE:
+                    sys.exit()
+
+
 def mainPro():
-    Velocity = float(input("Enter a velocity"))
-    Angle = float(input("Enter a angle"))
-    Height = float(input("Enter a height"))
     dt = 0
+    enter = input_types()
+    Velocity,Angle,Height = variables(enter)
+    Values = [Velocity,Angle,Height]
     color_circle = [255,204,0]
     pygame.init()
     pygame.display.set_caption('Projectile Motion')
     screen = pygame.display.set_mode((1366,768))
     running = True
-    gameExit = False
+    standard_values = calc_standardValues(Velocity,Angle,Height)
     screen.fill([255,255,255])
-    border(screen)
-    #axes(screen)
+    border(screen)     #axes(screen)
     pygame.display.flip()
     circle = pygame.image.load('Picture\Circle.png')#Use for Indicating current position
-    circle2 = pygame.image.load('Picture\Circle2.png')#Use For Erasing the before position
-    points =[]
-    int_points = []
-    dic_time = {}
+    circle2 = pygame.image.load('Picture\Circle2.png')#Use For Erasing the before position #circle3 = pygame.image.load('Picture\Circle3.png')
+    points =[] #to store points
+    int_points = [] #integer value of points
+    dic_time = {} #dictionary that contains time period cooresponding to the location in terms of x-cordinate
+    textInstant_Velocity = display_test('Instant Velcity = ', [0, 255, 0], (1000, 30), screen)
+    textInstant_Displacement = display_test('Displacement = ',[0,255,0],(1000,45),screen)
+    textInstant_time = display_test('Time period = ',[0,255,0],(1000,60),screen)
+    textInstant_Velocity.display()
+    textInstant_Displacement.display()
+    textInstant_time.display()
     while running:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -73,9 +180,10 @@ def mainPro():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         running = False
-
+                    if event.key == pygame.K_SPACE:
+                        pause_program()
             x,y,check = combined(Velocity,Angle,Height,dt)
-            if check < 0:
+            if check <= 0 and x != 60:
                 running = False
             points.append((x,y))
             int_points.append(int_plot(x,y))
@@ -85,45 +193,109 @@ def mainPro():
                 dic_time.update({int_points[n-2]:dt})
             else:
                 dic_time.update({int_points[n-2]:dt})
-            dt =dt + 0.001
-            #pygame.draw.circle(screen, (0, 0, 255), (int(x),int(y)), 1.5, 1)
-            #pygame.draw.line(screen, [0, 0, 0], (x, y), (x,y), 3)
-            if y <= 723 and x > 5:
-                #screen.blit(circle,(x,y))
-                pygame.draw.circle(screen,[255,204,0],int_plot(x,y),5)
+            dt =dt + 0.005
+            if y <= 733:
+                screen.blit(circle,(x,y))
                 axes(screen)
+                temp_values = instant_velocity_displacement(dt,Values)
+                formatted_instant = "{instant:0.3f}".format(instant = temp_values[0])
+                ValuesInstan = display_Values(formatted_instant,[0,0,255],(1200,30),screen)
+                ValuesInstan.display()
+                formatted_instant = "{instant:0.3f}".format(instant=temp_values[1])
+                ValuesInstan1 = display_Values(formatted_instant, [0, 0, 255], (1200, 45), screen)
+                ValuesInstan1.display()
+                formatted_instant = "{instant:0.3f}".format(instant=dt)
+                ValuesInstan2 = display_Values(formatted_instant, [0, 0, 255], (1200, 60), screen)
+                ValuesInstan2.display()
                 pygame.display.update()
-                #screen.blit(circle2, (x, y))
-                pygame.draw.circle(screen, [255, 255, 255], int_plot(x, y),5)
-                # pygame.draw.aaline(screen, [255,0,0], (x,y), (x,y),0)
+                screen.blit(circle2, (x, y))
+                screen.fill([255,255,255],rect = [1200,30,100,100])
+                pygame.draw.aaline(screen,[255,0,0],(x,y),(x,y),0)
+    inform(points,int_points,screen,dic_time,Values,standard_values)
 
 
-    inform(points,int_points,screen,dic_time)
-#function for displaying information
-def inform(points,int_points,screen,dict):
+def inform(points,int_points,screen,dict,Values,standard_values):  # function for displaying information
+    showing = True
     pygame.init()
-    screen.fill([255, 255, 255])
-    border(screen)
     pygame.display.flip()
-    showing =True
+    screen.fill([255, 255, 255])
+    axes(screen)
+    border(screen)
+    Range , Max_Height, Time = standard_values
+    textInstant_velocity_remarks = display_test('Instant Velocity = ', [0, 255, 0], (1050, 30), screen)
+    textInstant_velocity_remarks.display()
+    textInstant_Displacement_remarks = display_test('Displacement = ', [0, 255, 0], (1050, 45), screen)
+    textInstant_Displacement_remarks.display()
+    textRange_remarks = display_test('Total Range =',[0,255,0],(1050,60),screen)
+    textMaxHeight_remarks = display_test('Maximum Height =',[0,255,0],(1050,75),screen)
+    textTime_remarks = display_test('Total Time =',[0,255,0],(1050,90),screen)
+    textRange_remarks.display()
+    textMaxHeight_remarks.display()
+    textTime_remarks.display()
+    formatted_Range = "{Temp_range:0.3f}".format(Temp_range=Range)
+    formatted_MaxHeight = "{Temp_height:0.3f}".format(Temp_height = Max_Height)
+    formatted_Time = "{Temp_time:0.3f}".format(Temp_time=Time)
+    value_Range = display_Values(formatted_Range,[0,0,255],(1230,60),screen)
+    value_Height = display_Values(formatted_MaxHeight,[0,0,255],(1230,75),screen)
+    value_time = display_Values(formatted_Time,[0,0,255],(1230,90),screen)
+    value_Range.display()
+    value_Height.display()
+    value_time.display()
+    if Values[0] == 0:
+        points2,int_points2,dict_time = alternative_projectile(Values)
+        del int_points2[-1]
+    del int_points[-1]
     x = 0
-
     while x < (len(points) - 1):
-        pygame.draw.aaline(screen,[255,0,0],points[x],points[x+1],0)
+        pygame.draw.aaline(screen, [255, 0, 0], points[x], points[x + 1])
         x = x + 1
-    print(points)
-    print(int_points)
-    print(dict)
     while showing:
-        axes(screen)
         pygame.display.update()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 showing = False
-
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    showing = False
             posx,posy = pygame.mouse.get_pos()
-            if int_points.count((posx,posy)) == 1:
-                print(dict[(posx,posy)])
+            while int_points.count((posx,posy)) == 1:
+               Position = (posx,posy)
+               Vel , Dis = calc_projectile(dict,Position,Values)
+               formatted_vel = "{VelC:0.3f}".format(VelC = Vel)
+               textInstant_velocity = display_Values(formatted_vel,[0,0,255],(1230,30),screen)
+               textInstant_velocity.display()
+               formatted_dis = "{Disc:0.3f}".format(Disc=Dis)
+               textInstant_displacement = display_Values(formatted_dis,[0,0,255],(1230,45),screen)
+               textInstant_displacement.display()
+               pygame.display.update()
+               for subevent in pygame.event.get():
+                   posx,posy = pygame.mouse.get_pos()
+        screen.fill([255,255,255],rect = [1230,30,100,30])
+
+def alternative_projectile(Values):
+    Velocity = Values[0]
+    Angle = 90 - Values[1]
+    Height = Values[2]
+    dt = 0
+    calculating = True
+    points = []
+    int_points = []
+    dic_time = {}
+    while calculating:
+        x,y,check = combined(Velocity,Angle,Height,dt)
+        dt = dt + 0.0001
+        if check <= 0 and x != 60:
+            calculating = False
+        points.append((x, y))
+        int_points.append(int_plot(x, y))
+        n = len(int_points)
+        if n > 2 and int_points[n - 2] == int_points[n - 1]:
+            del int_points[n - 1]
+            dic_time.update({int_points[n - 2]: dt})
+        else:
+            dic_time.update({int_points[n - 2]: dt})
+    return [points,int_points,dic_time]
+
 
 
 
