@@ -1,19 +1,20 @@
 import pygame
 import math
 import sys
-
+import SHM
+import wave
 def option(screen):
     d="Electrostatics"
     font=pygame.font.SysFont(None,20)
-    op1=font.render("1. Projectile",True,(0,0,255))
+    op1=font.render("1. Superposition of Waves",True,(0,0,255))
     op2=font.render("2. Simple Pendulum",True,(0,0,255))
-    op3=font.render("3. Projection of a Particle in Circular motion on axes",True,(0,0,255))
-    op4=font.render(d,True,(0,0,255))
+    op3=font.render("3. Projectile",True,(0,0,255))
+    op4=font.render("4. Porjection of an object in circular motion",True,(0,0,255))
     screen.blit(op1,(200,200))
     screen.blit(op2,(200,230))
     screen.blit(op3,(200,260))
     screen.blit(op4,(200,290))
-def border(screen):
+def border():
 
     #horizontal line above
     screen.fill((0,0,0))
@@ -87,12 +88,16 @@ def check():
                 sys.exit()
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos=pygame.mouse.get_pos()
-            if pos[0] >=200 and pos[0]<=315 and pos[1] >=205 and pos[1]<=225:
-                print("In projectile")
-            elif pos[0] >=200 and pos[0]<=375 and pos[1] >=240 and pos[1]<=260:
+            print (pos)
+            if pos[0] >=200 and pos[0]<=365 and pos[1] >=205 and pos[1]<=225:
+                wave.run_wave()
+            elif pos[0] >=200 and pos[0]<=340 and pos[1] >=235 and pos[1]<=265:
                 print("in 2nd option")
-            elif pos[0] >=200 and pos[0]<=680 and pos[1] >=265 and pos[1]<=290:
+            elif pos[0] >=200 and pos[0]<=280 and pos[1] >=260 and pos[1]<=270:
                 print("In 3rd option")
+            elif pos[0] >=200 and pos[0]<=470 and pos[1] >=290 and pos[1]<=310:
+                SHM.run_shm()
+
 
 pygame.init()
 screen=pygame.display.set_mode((1366,768))#,pygame.FULLSCREEN)
@@ -106,7 +111,7 @@ def menu():
     #list()
     #action()
     while not done:
-        border(screen)
+        border()
         counter+=0.01
         check()
         #pygame.time.delay(100)
