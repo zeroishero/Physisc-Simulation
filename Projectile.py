@@ -132,6 +132,8 @@ def pause_program():  # Function for pausing the program
                 if event.key == pygame.K_SPACE:
                     paused = False
                 if event.key == pygame.K_ESCAPE:
+                    import Menu
+                    Menu.menu()
                     sys.exit()
 
 #function for scaling
@@ -149,7 +151,7 @@ def Scaling(standard):
 #MainPragram
 def mainPro():
     pygame.init()
-    screen = pygame.display.set_mode((1366, 768))
+    screen = pygame.display.set_mode((1366, 768),pygame.FULLSCREEN)
     pygame.display.set_caption('Projectile Motion')
     Values = [Velocity, Angle, Height] = InputScreen.input_screen_projectile(screen)
     dt = 0

@@ -28,7 +28,7 @@ def program():
 
 
     #Set screen
-    scr = pygame.display.set_mode((setting.scr_width, setting.scr_height))
+    scr = pygame.display.set_mode((setting.scr_width, setting.scr_height),pygame.FULLSCREEN)
     scr.fill(setting.bg_color)
     pygame.display.set_caption("Display")
     width = int(setting.scr_width / 2)

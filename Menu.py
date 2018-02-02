@@ -5,6 +5,7 @@ import SHM
 import wave
 import Projectile
 import main
+import ElasticCollision
 def option(screen):
     d="Electrostatics"
     font=pygame.font.SysFont(None,40)
@@ -12,6 +13,7 @@ def option(screen):
     op2=font.render("2. Simple Pendulum",True,(201,13,47))
     op3=font.render("3. Projectile",True,(201,13,47))
     op4=font.render("4. Projection of an object in circular motion",True,(201,13,47))
+    op5 =font.render("5. Collision",True,(201,13,47))
     screen.fill((0,255,0),rect=[60,145,725,415])
     screen.fill((47,52,64),rect=[75,150,700,400])
 
@@ -20,6 +22,7 @@ def option(screen):
     screen.blit(op2,(100,250))
     screen.blit(op3,(100,300))
     screen.blit(op4,(100,350))
+    screen.blit(op5,(100,400))
 def border():
 
     #horizontal line above
@@ -101,12 +104,14 @@ def check():
                 main.program()
             elif pos[0] >=100 and pos[0]<=400 and pos[1] >=290 and pos[1]<=335:
                 Projectile.mainPro()
-            elif pos[0] >=100 and pos[0]<=400 and pos[1] >=340 and pos[1]<=355:
+            elif pos[0] >=100 and pos[0]<=400 and pos[1] >=340 and pos[1]<=395:
                 SHM.run_shm()
+            elif pos[0] >=100 and pos[0]<=400 and pos[1] >=400 and pos[1]<=450:
+                ElasticCollision.main_program()
 
 
 pygame.init()
-screen=pygame.display.set_mode((1366,768))#,pygame.FULLSCREEN)
+screen=pygame.display.set_mode((1366,768),pygame.FULLSCREEN)
 pygame.display.set_caption("Physics Simulation")
 
 def menu():
