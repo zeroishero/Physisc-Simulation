@@ -157,7 +157,7 @@ def input_screen_projectile(screen):
                                     value_angle.display()
                                 elif sub_event.key == pygame.K_RETURN:
                                     angle_input = True
-                                    screen.fill([209, 219, 189], rect=[350, 200 + 80, 400, 50])
+                                screen.fill([209, 219, 189], rect=[350, 200 + 80, 400, 50])
                                 value_angle.display()
                                 pygame.display.flip()
                 if (350 <= posx <= 750) and (375 <= posy <= 415 ):
