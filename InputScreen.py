@@ -1,5 +1,5 @@
 import pygame
-screen = pygame.display.set_mode((1366,768))
+# screen = pygame.display.set_mode((1366,768))
 
 class display_title:
     def __init__(self,message,colour,location,screen,size):
@@ -33,7 +33,6 @@ class display_value:
 
 
 def input_screen_projectile(screen):
-    pygame.init()
     screen.fill([18,47,53])
     screen.fill([8,120,145],rect = [300,50,718,618])
     Title_Velocity = display_title("Enter a Velocity:",[64,59,48],(350,70+80),screen,25)
@@ -41,12 +40,13 @@ def input_screen_projectile(screen):
     Title_Angle = display_title("Enter a Angle:", [64,59,48], (350,160+80), screen, 25)
     Title_Angle.display()
     Title_height = display_title("Enter a Height:", [64,59,48],(350,260+80),screen,25)
-    #Title_submit = display_title("Submit:",[64,59,48],())
+    Title_submit = display_title("Submit",[255,255,255],(911, 583), screen,20)
     screen.fill([209,219,189],rect = [350,105+80,400,50])
     screen.fill([209, 219, 189], rect=[350, 200+80, 400, 50])
     screen.fill([209, 219, 189], rect=[350, 295+80, 400, 50])
     screen.fill([27,22,69],rect = [898,575,100,40])
     Title_height.display()
+    Title_submit.display()
     pygame.display.flip()
     running = True
     velocity = ''
@@ -73,7 +73,10 @@ def input_screen_projectile(screen):
 
                         for sub_event in pygame.event.get():
                             if sub_event.type == pygame.KEYDOWN:
-                                if sub_event.key == pygame.K_1:
+                                if sub_event.key == pygame.K_0:
+                                    value_velocity.add('0')
+                                    value_velocity.display()
+                                elif sub_event.key == pygame.K_1:
                                     value_velocity.add('1')
                                     value_velocity.display()
                                 elif sub_event.key == pygame.K_2:
@@ -105,6 +108,7 @@ def input_screen_projectile(screen):
                                     value_velocity.display()
                                 elif sub_event.key == pygame.K_BACKSPACE:
                                     value_velocity.sub()
+                                    value_velocity.display()
                                 elif sub_event.key == pygame.K_RETURN:
                                     velocity_input = True
                                 screen.fill([209, 219, 189], rect=[350, 105 + 80, 400, 50])
@@ -115,7 +119,10 @@ def input_screen_projectile(screen):
                     while not angle_input:
                         for sub_event in pygame.event.get():
                             if sub_event.type == pygame.KEYDOWN:
-                                if sub_event.key == pygame.K_1:
+                                if sub_event.key == pygame.K_0:
+                                    value_angle.add('0')
+                                    value_angle.display()
+                                elif sub_event.key == pygame.K_1:
                                     value_angle.add('1')
                                     value_angle.display()
                                 elif sub_event.key == pygame.K_2:
@@ -147,6 +154,7 @@ def input_screen_projectile(screen):
                                     value_angle.display()
                                 elif sub_event.key == pygame.K_BACKSPACE:
                                     value_angle.sub()
+                                    value_angle.display()
                                 elif sub_event.key == pygame.K_RETURN:
                                     angle_input = True
                                     screen.fill([209, 219, 189], rect=[350, 200 + 80, 400, 50])
@@ -156,7 +164,10 @@ def input_screen_projectile(screen):
                     while not height_input:
                         for sub_event in pygame.event.get():
                             if sub_event.type == pygame.KEYDOWN:
-                                if sub_event.key == pygame.K_1:
+                                if sub_event.key == pygame.K_0:
+                                    value_height.add('0')
+                                    value_height.display()
+                                elif sub_event.key == pygame.K_1:
                                     value_height.add('1')
                                     value_height.display()
                                 elif sub_event.key == pygame.K_2:
@@ -188,6 +199,7 @@ def input_screen_projectile(screen):
                                     value_height.display()
                                 elif sub_event.key == pygame.K_BACKSPACE:
                                     value_height.sub()
+                                    value_height.display()
                                 elif sub_event.key == pygame.K_RETURN:
                                     height_input = True
                                 screen.fill([209, 219, 189], rect=[350, 295 + 80, 400, 50])
@@ -216,7 +228,8 @@ def input_screen_Collision(screen):
      Title_Mass2.display()
      Title_Velocity2 = display_title("Velocity of second Body:", [64, 59, 48], (350, 350 + 80), screen, 25)
      Title_Velocity2.display()
-     # Title_submit = display_title("Submit:",[64,59,48],())
+     Title_submit = display_title("Submit", [255, 255, 255], (911, 583), screen, 20)
+     Title_submit.display()
      screen.fill([209, 219, 189], rect=[350, 105 + 80, 400, 50])
      screen.fill([209, 219, 189], rect=[350, 200 + 80, 400, 50])
      screen.fill([209, 219, 189], rect=[350, 295 + 80, 400, 50])
@@ -287,6 +300,7 @@ def input_screen_Collision(screen):
                                      value_Mass1.display()
                                  elif sub_event.key == pygame.K_BACKSPACE:
                                      value_Mass1.sub()
+                                     value_Mass1.display()
                                  elif sub_event.key == pygame.K_RETURN:
                                      Mass1_input = True
                                  screen.fill([209, 219, 189], rect=[350, 105 + 80, 400, 50])
@@ -332,6 +346,7 @@ def input_screen_Collision(screen):
                                      value_Velocity1.display()
                                  elif sub_event.key == pygame.K_BACKSPACE:
                                      value_Velocity1.sub()
+                                     value_Velocity1.display()
                                  elif sub_event.key == pygame.K_RETURN:
                                      Velocity1_input= True
                                      screen.fill([209, 219, 189], rect=[350, 200 + 80, 400, 50])
@@ -376,6 +391,7 @@ def input_screen_Collision(screen):
                                      value_Mass2.display()
                                  elif sub_event.key == pygame.K_BACKSPACE:
                                      value_Mass2.sub()
+                                     value_Mass2.display()
                                  elif sub_event.key == pygame.K_RETURN:
                                      Mass2_input = True
                                  screen.fill([209, 219, 189], rect=[350, 295 + 80, 400, 50])
@@ -420,6 +436,7 @@ def input_screen_Collision(screen):
                                      value_Velocity2.display()
                                  elif sub_event.key == pygame.K_BACKSPACE:
                                      value_Velocity2.sub()
+                                     value_Velocity2.display()
                                  elif sub_event.key == pygame.K_RETURN:
                                      Velocity2_input= True
                                      screen.fill([209, 219, 189], rect=[350, 390 + 80, 400, 50])

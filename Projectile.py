@@ -1,7 +1,8 @@
 #impoting libraries
 import math
 import pygame
-#import inputScreen
+import sys
+import InputScreen
 
 def input_types():#for choosing types of projecctile motion.
     #pygame.init()
@@ -147,13 +148,13 @@ def Scaling(standard):
 
 #MainPragram
 def mainPro():
-    dt = 0
     pygame.init()
-    pygame.display.set_caption('Projectile Motion')
     screen = pygame.display.set_mode((1366, 768))
-    enter = input_types()
-    Velocity,Angle,Height = variables(enter)#inputScreen.input_screen(screen)
-    Values = [Velocity,Angle,Height]
+    pygame.display.set_caption('Projectile Motion')
+    Values = [Velocity, Angle, Height] = InputScreen.input_screen_projectile(screen)
+    dt = 0
+    # enter = input_types()
+    # Velocity,Angle,Height = variables(enter)#inputScreen.input_screen(screen)
     running = True
     standard_values = calc_standardValues(Velocity,Angle,Height)
     screen.fill([247,247,247])
