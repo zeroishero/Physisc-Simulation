@@ -306,7 +306,7 @@ def alternative_projectile(Values):
     return [points,int_points,dic_time]
 
 
-mainPro()
+#mainPro()
 
 
 

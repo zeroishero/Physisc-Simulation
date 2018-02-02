@@ -15,9 +15,13 @@ def check_events(move,screen,arc,setting):
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
+            import Menu
+            Menu.menu()
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
+                import Menu
+                Menu.menu()
                 sys.exit()
 
         elif event.type == pygame.MOUSEBUTTONDOWN:

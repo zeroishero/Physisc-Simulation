@@ -70,4 +70,3 @@ def program():
         #Slow the clock
         pygame.time.delay(10)
 
-program()

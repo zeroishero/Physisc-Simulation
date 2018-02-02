@@ -159,6 +159,8 @@ def chk(a,b):
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
+                import Menu
+                Menu.menu()
                 sys.exit()
             if event.key == pygame.K_SPACE:
                 pause=not pause
@@ -310,4 +312,4 @@ def run_wave():
         chk(a,b)
         pygame.display.update()
         clock.tick(60)
-run_wave()
+#run_wave()

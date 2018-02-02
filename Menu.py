@@ -3,21 +3,27 @@ import math
 import sys
 import SHM
 import wave
+import Projectile
+import main
 def option(screen):
     d="Electrostatics"
-    font=pygame.font.SysFont(None,20)
-    op1=font.render("1. Superposition of Waves",True,(0,0,255))
-    op2=font.render("2. Simple Pendulum",True,(0,0,255))
-    op3=font.render("3. Projectile",True,(0,0,255))
-    op4=font.render("4. Porjection of an object in circular motion",True,(0,0,255))
-    screen.blit(op1,(200,200))
-    screen.blit(op2,(200,230))
-    screen.blit(op3,(200,260))
-    screen.blit(op4,(200,290))
+    font=pygame.font.SysFont(None,40)
+    op1=font.render("1. Superposition of Waves",True,(201,13,47))
+    op2=font.render("2. Simple Pendulum",True,(201,13,47))
+    op3=font.render("3. Projectile",True,(201,13,47))
+    op4=font.render("4. Projection of an object in circular motion",True,(201,13,47))
+    screen.fill((0,255,0),rect=[60,145,725,415])
+    screen.fill((47,52,64),rect=[75,150,700,400])
+
+    #screen.fill((88, 181, 171), [90, 190, 600, 50])
+    screen.blit(op1,(100,200))
+    screen.blit(op2,(100,250))
+    screen.blit(op3,(100,300))
+    screen.blit(op4,(100,350))
 def border():
 
     #horizontal line above
-    screen.fill((0,0,0))
+    screen.fill((100,100,100))
     option(screen)
     pygame.draw.line(screen, (0,0,255), [0, 0], [1366, 0], 1)
     pygame.draw.line(screen, (0,0,255), [0, 1], [1366, 1], 1)
@@ -89,13 +95,13 @@ def check():
         if event.type == pygame.MOUSEBUTTONDOWN:
             pos=pygame.mouse.get_pos()
             print (pos)
-            if pos[0] >=200 and pos[0]<=365 and pos[1] >=205 and pos[1]<=225:
+            if pos[0] >=100 and pos[0]<=400 and pos[1] >=200 and pos[1]<=240:
                 wave.run_wave()
-            elif pos[0] >=200 and pos[0]<=340 and pos[1] >=235 and pos[1]<=265:
-                print("in 2nd option")
-            elif pos[0] >=200 and pos[0]<=280 and pos[1] >=260 and pos[1]<=270:
-                print("In 3rd option")
-            elif pos[0] >=200 and pos[0]<=470 and pos[1] >=290 and pos[1]<=310:
+            elif pos[0] >=100 and pos[0]<=400 and pos[1] >=245 and pos[1]<=285:
+                main.program()
+            elif pos[0] >=100 and pos[0]<=400 and pos[1] >=290 and pos[1]<=335:
+                Projectile.mainPro()
+            elif pos[0] >=100 and pos[0]<=400 and pos[1] >=340 and pos[1]<=355:
                 SHM.run_shm()
 
 
