@@ -61,8 +61,8 @@ def event_handle():  # Event handling function
             if event.key == pygame.K_SPACE:
                 pause_program()
             if event.key == pygame.K_ESCAPE:
-                import Menu
-                Menu.menu()
+                import Main_Final
+                Main_Final.main()
                 sys.exit()
 
 

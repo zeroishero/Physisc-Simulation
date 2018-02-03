@@ -132,8 +132,8 @@ def pause_program():  # Function for pausing the program
                 if event.key == pygame.K_SPACE:
                     paused = False
                 if event.key == pygame.K_ESCAPE:
-                    import Menu
-                    Menu.menu()
+                    import Main_Final
+                    Main_Final.main()
                     sys.exit()
 
 #function for scaling
